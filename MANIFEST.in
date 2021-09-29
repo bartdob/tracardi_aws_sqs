@@ -1,0 +1,2 @@
+recursive-include tracardi_aws_sqs/model *
+recursive-include tracardi_aws_sqs/service *
