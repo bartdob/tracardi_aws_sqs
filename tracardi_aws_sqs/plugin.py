@@ -4,6 +4,11 @@ from tracardi_plugin_sdk.domain.result import Result
 
 
 class AwsSqsAction(ActionRunner):
+    @staticmethod
+    async def build(**kwargs) -> 'AwsSqsAction':
+        config = PushOverConfiguration(**kwargs)
+        source = await storage.driver.resource.load(config.source.id)
+        return PushoverAction(config, source)
 
     def __init__(self, **kwargs):
         pass
