@@ -1,17 +1,21 @@
+from tracardi.domain.resource import Resource
+from tracardi.service.storage.driver import storage
 from tracardi_plugin_sdk.action_runner import ActionRunner
 from tracardi_plugin_sdk.domain.register import Plugin, Spec, MetaData
 from tracardi_plugin_sdk.domain.result import Result
+from tracardi_aws_sqs.model.model import AwsSqsConfiguration, SqsUrl
 
 
 class AwsSqsAction(ActionRunner):
     @staticmethod
     async def build(**kwargs) -> 'AwsSqsAction':
-        config = PushOverConfiguration(**kwargs)
+        config = AwsSqsConfiguration(**kwargs)
         source = await storage.driver.resource.load(config.source.id)
-        return PushoverAction(config, source)
+        return AwsSqsAction(config, source)
 
-    def __init__(self, **kwargs):
-        pass
+    def __init__(self, config: AwsSqsConfiguration, source: Resource):
+        self.aws_config = config
+        self.source = SqsUrl(**source.config)
 
     async def run(self, payload):
         return Result(port="payload", value=payload)

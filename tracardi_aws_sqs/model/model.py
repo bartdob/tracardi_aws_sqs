@@ -1,9 +1,19 @@
 from pydantic import validator
 from pydantic.main import BaseModel
+from tracardi.domain.entity import Entity
 
 
-class QueueMessage(BaseModel):
+class SqsUrl(BaseModel):
+    queueUrl: str
+
+
+class SqsQueue(BaseModel):
     message: str
+
+
+class AwsSqsConfiguration(BaseModel):
+    source: Entity
+    message: SqsQueue
 
     @validator('message')
     def myst_have_2_letter(cls, v):
@@ -12,12 +22,9 @@ class QueueMessage(BaseModel):
         return v
 
 
-class SqsQueue(BaseModel):
-    message: QueueMessage
-    queueUrl: str
 
-class PushOverConfiguration(BaseModel):
-    source: Entity
-    message: str
+
+
+
 
 
