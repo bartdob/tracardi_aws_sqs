@@ -1,5 +1,9 @@
 pip>=21.2.4
 tracardi-plugin-sdk
-tracardi
+tracardi~=0.6.16
 wheel
 twine
+
+setuptools~=57.0.0
+pydantic~=1.8.2
+boto3~=1.18.52
