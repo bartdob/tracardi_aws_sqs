@@ -3,7 +3,9 @@ from pydantic.main import BaseModel
 from tracardi.domain.entity import Entity
 
 
-class SqsUrl(BaseModel):
+class SqsAuth(BaseModel):
+    aws_access_key_id: str
+    aws_secret_access_key: str
     queueUrl: str
 
 
