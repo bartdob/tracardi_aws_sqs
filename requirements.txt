@@ -9,3 +9,9 @@ pydantic~=1.8.2
 boto3~=1.18.52
 asyncio~=3.4.3
 python-dotenv~=0.19.0
+aiobotocore-1.4.2
+aioitertools-0.8.0
+botocore-1.20.106
+wrapt-1.13.1
+
+aiobotocore~=1.4.2

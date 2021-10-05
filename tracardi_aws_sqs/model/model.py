@@ -6,7 +6,6 @@ from tracardi.domain.entity import Entity
 class SqsAuth(BaseModel):
     aws_access_key_id: str
     aws_secret_access_key: str
-    queueUrl: str
 
 
 class SqsQueue(BaseModel):
@@ -16,6 +15,7 @@ class SqsQueue(BaseModel):
 class AwsSqsConfiguration(BaseModel):
     source: Entity
     message: SqsQueue
+    region_name: str
 
     @validator('message')
     def myst_have_2_letter(cls, v):
