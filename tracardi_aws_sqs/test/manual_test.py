@@ -5,7 +5,7 @@ from tracardi.domain.profile import Profile
 from tracardi.domain.session import Session
 from tracardi_plugin_sdk.service.plugin_runner import run_plugin
 
-from tracardi_aws_sqs.plugin import awsSqsAction
+from tracardi_aws_sqs.plugin import AwsSqsAction
 
 init = {}
 payload = {}
@@ -16,7 +16,7 @@ event = Event(id="event-id",
               session=Session(id="session-id"),
               source=Entity(id="source-id"),
               context=Context())
-result = run_plugin(awsSqsAction, init, payload,
+result = run_plugin(AwsSqsAction, init, payload,
                     profile)
 
 print("OUTPUT:", result.output)

@@ -33,7 +33,6 @@ async def send_message1():
         QUEUE_NAME = 'MyQ'
         msg_body = 'heeee'
         session = get_session()
-        session = get_session()
         async with session.create_client('sqs', region_name='eu-central-1',
                                          aws_secret_access_key=os.getenv('aws_sec_access_key'),
                                          aws_access_key_id=os.getenv('aws_ac_key_id')

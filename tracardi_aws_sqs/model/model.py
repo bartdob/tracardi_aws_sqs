@@ -16,6 +16,7 @@ class AwsSqsConfiguration(BaseModel):
     source: Entity
     message: SqsQueue
     region_name: str
+    queueUrl: str
 
     @validator('message')
     def myst_have_2_letter(cls, v):

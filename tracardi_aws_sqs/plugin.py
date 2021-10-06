@@ -3,8 +3,7 @@ from tracardi.service.storage.driver import storage
 from tracardi_plugin_sdk.action_runner import ActionRunner
 from tracardi_plugin_sdk.domain.register import Plugin, Spec, MetaData
 from tracardi_plugin_sdk.domain.result import Result
-from tracardi_aws_sqs.model.model import AwsSqsConfiguration, SqsQueue, SqsAuth
-import asyncio
+from tracardi_aws_sqs.model.model import AwsSqsConfiguration, SqsAuth
 from aiobotocore.session import get_session
 
 
@@ -21,20 +20,18 @@ class AwsSqsAction(ActionRunner):
 
     async def run(self, payload):
         session = get_session()
-        async with session.create_client = ('sqs', region_name: self.config.region_name,
-                                  aws_secret_access_key: self.source.aws.access_key_id,
-                                  aws_secret_access_key=os.getenv('aws_sec_access_key'))
+        async with session.create_client('sqs', region_name=self.aws_config.region_name,
+                                         aws_secret_access_key=self.source.aws_secret_access_key,
+                                         aws_access_key_id=self.source.aws_access_key_id
+                                         ) as client:
+            # print('Putting messages on the queue')
+            result = await client.send_message(QueueUrl=self.aws_config.queueUrl,
+                                               MessageBody=self.aws_config.message)
 
-        message = {"key": "hello Bart1"}
-        response = sqs_client.send_message(
-            QueueUrl="https://sqs.eu-central-1.amazonaws.com/521597733500/MyQ",
-            MessageBody=json.dumps(message)
-        )
-        print(response)
-        print(message)
-
-
-        return Result(port="payload", value=payload)
+        return Result(port="payload", value={
+            "status": result.status,
+            "body": await result.json()
+        })
 
 
 def register() -> Plugin:
