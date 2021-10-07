@@ -14,7 +14,9 @@ setup(
     packages=['tracardi_aws_sqs'],
     install_requires=[
         'tracardi-plugin-sdk',
-        'tracardi'
+        'tracardi',
+        'botocore',
+        'aiobotocore'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
