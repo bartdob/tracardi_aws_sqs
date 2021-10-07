@@ -24,12 +24,11 @@ class AwsSqsAction(ActionRunner):
                                          aws_secret_access_key=self.source.aws_secret_access_key,
                                          aws_access_key_id=self.source.aws_access_key_id
                                          ) as client:
-            # print('Putting messages on the queue')
             result = await client.send_message(QueueUrl=self.aws_config.queueUrl,
                                                MessageBody=self.aws_config.message)
 
         return Result(port="payload", value={
-            "status": result.status,
+            "status": await result.status,
             "body": await result.json()
         })
 
