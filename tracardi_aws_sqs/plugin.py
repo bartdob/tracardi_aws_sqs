@@ -27,10 +27,18 @@ class AwsSqsAction(ActionRunner):
             result = await client.send_message(QueueUrl=self.aws_config.queueUrl,
                                                MessageBody=self.aws_config.message)
 
-        return Result(port="payload", value={
-            "status": await result.status,
-            "body": await result.json()
-        })
+            status_ok = result.get("ResponseMetadata", {}).get("HTTPStatusCode") # response from server
+
+            if status_ok in [200, 201, 202, 203, 204]:
+                return Result(port="payload", value={
+                    "status": await result.status,
+                    "body": await result.json()
+                }), Result(port="success", value={status_ok})
+            else:
+                return Result(port="payload", value={
+                    "status": await result.status,
+                    "body": await result.json()
+                }), Result(port="error", value={status_ok})
 
 
 def register() -> Plugin:
