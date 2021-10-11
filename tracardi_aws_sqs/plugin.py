@@ -33,12 +33,16 @@ class AwsSqsAction(ActionRunner):
                 return Result(port="payload", value={
                     "status": await result.status,
                     "body": await result.json()
-                }), Result(port="success", value={status_ok})
+                }), Result(port="success", value={
+                    "status": "success"})
             else:
                 return Result(port="payload", value={
                     "status": await result.status,
                     "body": await result.json()
-                }), Result(port="error", value={status_ok})
+                }), Result(port="error", value={
+                    "status": "error",
+                    "body": status_ok
+                })
 
 
 def register() -> Plugin:
