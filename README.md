@@ -37,3 +37,15 @@ Output returns status and response body form PushOver service.
     'RetryAttempts': 0}}"
   }
 }
+
+if message is send to queue successfully: 
+            {
+                port="success", value={
+                "status": "success"}
+            }            
+if message faild:
+            {   
+                port="error", value={
+                "status": "error",
+                "body": status_ok
+                })
