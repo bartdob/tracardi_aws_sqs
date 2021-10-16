@@ -8,6 +8,7 @@ from aiobotocore.session import get_session
 
 
 class AwsSqsAction(ActionRunner):
+
     @staticmethod
     async def build(**kwargs) -> 'AwsSqsAction':
         config = AwsSqsConfiguration(**kwargs)
@@ -27,7 +28,7 @@ class AwsSqsAction(ActionRunner):
             result = await client.send_message(QueueUrl=self.aws_config.queueUrl,
                                                MessageBody=self.aws_config.message)
 
-            status_ok = result.get("ResponseMetadata", {}).get("HTTPStatusCode") # response from server
+            status_ok = result.get("ResponseMetadata", {}).get("HTTPStatusCode")  # response from server
 
             if status_ok in [200, 201, 202, 203, 204]:
                 return Result(port="payload", value={
@@ -60,7 +61,7 @@ def register() -> Plugin:
         ),
         metadata=MetaData(
             name='tracardi-aws-sqs',
-            desc='plugin to send a message to a Amazon AWS SQS queue',
+            desc='Plugin send a message to a Amazon AWS SQS queue',
             type='flowNode',
             width=200,
             height=100,
