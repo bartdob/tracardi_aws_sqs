@@ -25,21 +25,21 @@ class AwsSqsAction(ActionRunner):
                                          aws_secret_access_key=self.source.aws_secret_access_key,
                                          aws_access_key_id=self.source.aws_access_key_id
                                          ) as client:
-            result = await client.send_message(QueueUrl=self.aws_config.queueUrl,
+            result = await client.send_message(QueueUrl=self.aws_config.queue_url,
                                                MessageBody=self.aws_config.message)
 
             status_ok = result.get("ResponseMetadata", {}).get("HTTPStatusCode")  # response from server
 
             if status_ok in [200, 201, 202, 203, 204]:
                 return Result(port="payload", value={
-                    "status": await result.status,
-                    "body": await result.json()
+                    "status": status_ok,
+                    "body": result
                 }), Result(port="success", value={
                     "status": "success"})
             else:
                 return Result(port="payload", value={
-                    "status": await result.status,
-                    "body": await result.json()
+                    "status": status_ok,
+                    "body": result
                 }), Result(port="error", value={
                     "status": "error",
                     "body": status_ok
@@ -57,15 +57,23 @@ def register() -> Plugin:
             version='0.1',
             license="MIT",
             author="Bart Dobrosielski",
-            init={}
+            init={
+                "source": {
+                    "id": None
+                },
+                "message": "",
+                "region_name": "us-west-2",
+                "queue_url": ""
+            }
         ),
         metadata=MetaData(
-            name='tracardi-aws-sqs',
+            name='Simple queue service',
             desc='Plugin send a message to a Amazon AWS SQS queue',
             type='flowNode',
             width=200,
             height=100,
-            icon='icon',
-            group=["Connectors"]
+            icon='aws',
+            tags=['aws'],
+            group=["Amazon Web Services"]
         )
     )

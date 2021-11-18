@@ -9,13 +9,27 @@ aws_secret_access_key and aws_access_key_id form amazon IAM
 
 ```json
 {
+  "source": {
+    "id": "<resource-id>"
+  },
   "region_name": "region_name for amazon sqs",
   "queueUrl": "url of the queue form amazon sqs",
-  "aws_secret_access_key": "aws_secret_access_key form amazon IAM",
-  "aws_access_key_id": "aws_access_key_id from amazon IAM",
   "message": "the message you put in to the queue"
 }
 ```
+
+## Resource Configuration
+
+```json
+{
+  "aws_secret_access_key": "aws_secret_access_key from amazon IAM",
+  "aws_access_key_id": "aws_access_key_id from amazon IAM"
+}
+```
+
+## Where is my SecretKey.
+
+* https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/
 
 # Input
 
