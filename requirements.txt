@@ -1,6 +1,6 @@
 pip>=21.2.4
-tracardi-plugin-sdk
-tracardi~=0.6.16
+tracardi-plugin-sdk>=0.6.25
+tracardi>=0.6.18,<=0.7.0
 wheel
 twine
 

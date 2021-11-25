@@ -8,18 +8,15 @@ class SqsAuth(BaseModel):
     aws_secret_access_key: str
 
 
-class SqsQueue(BaseModel):
-    message: str
-
-
 class AwsSqsConfiguration(BaseModel):
     source: Entity
-    message: SqsQueue
+    message: str
     region_name: str
-    queueUrl: str
+    queue_url: str
 
     @validator('message')
-    def myst_have_2_letter(cls, v):
+    def must_have_2_letters(cls, v):
+        print(v)
         if len(v) < 2:
             raise ValueError('String is too short. String must be at least two letters long.')
         return v
