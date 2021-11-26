@@ -56,7 +56,7 @@ def register() -> Plugin:
             className='AwsSqsAction',
             inputs=["payload"],
             outputs=['payload'],
-            version='0.1',
+            version='0.1.1',
             license="MIT",
             author="Bart Dobrosielski",
             init={
@@ -64,8 +64,10 @@ def register() -> Plugin:
                     "id": None
                 },
                 "message": "",
-                "region_name": "us-west-2",
-                "queue_url": ""
+                "region_name": "",
+                "queue_url": "",
+                "delay_seconds": "",
+                "message_attributes": "",
             }
         ),
         metadata=MetaData(

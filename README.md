@@ -15,7 +15,7 @@ aws_secret_access_key and aws_access_key_id form amazon IAM
   "region_name": "region_name for amazon sqs",
   "queue_url": "url of the queue form amazon sqs",
   "message": "the message you put in to the queue",
-  "delay_seconds": "An integer from 0 to 900 (15 minutes). Default: 0.",
+  "delay_seconds": "An integer from 0 to 900 (15 minutes). Default: 0. The length of time, in seconds, for which to delay a specific message",
   "message_attributes": "dictionary as https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sqs.html#SQS.Client.send_message" 
 }
 ```
