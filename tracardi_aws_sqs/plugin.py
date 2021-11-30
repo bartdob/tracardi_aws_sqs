@@ -1,8 +1,10 @@
+import json
+
 from tracardi.domain.resource import Resource
 from tracardi.service.storage.driver import storage
 from tracardi_plugin_sdk.action_runner import ActionRunner
 from tracardi_plugin_sdk.domain.result import Result
-from tracardi_aws_sqs.model.model import AwsSqsConfiguration, SqsAuth
+from tracardi_aws_sqs.model.model import AwsSqsConfiguration, SqsAuth, MessageAttributes
 from aiobotocore.session import get_session
 from tracardi_plugin_sdk.domain.register import Plugin, Spec, MetaData, Form, FormGroup, FormField, FormComponent
 
@@ -29,10 +31,18 @@ class AwsSqsAction(ActionRunner):
                                          aws_secret_access_key=self.source.aws_secret_access_key,
                                          aws_access_key_id=self.source.aws_access_key_id
                                          ) as client:
-            result = await client.send_message(QueueUrl=self.aws_config.queue_url,
-                                               MessageBody=self.aws_config.message.content,
-                                               DelaySeconds=self.aws_config.delay_seconds,
-                                               MessageAttributes=self.aws_config.message_attributes)
+
+            if isinstance(self.aws_config.message_attributes, str) and len(self.aws_config.message_attributes):
+                attributes = MessageAttributes(json.loads(self.aws_config.message_attributes))
+                attributes = attributes.dict()
+                result = await client.send_message(QueueUrl=self.aws_config.queue_url,
+                                                   MessageBody=self.aws_config.message.content,
+                                                   DelaySeconds=self.aws_config.delay_seconds,
+                                                   MessageAttributes=attributes)
+            else:
+                result = await client.send_message(QueueUrl=self.aws_config.queue_url,
+                                                   MessageBody=self.aws_config.message.content,
+                                                   DelaySeconds=self.aws_config.delay_seconds)
 
             status_ok = result.get("ResponseMetadata", {}).get("HTTPStatusCode")  # response from server
 
