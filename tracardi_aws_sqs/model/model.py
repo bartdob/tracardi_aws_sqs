@@ -1,4 +1,4 @@
-from pydantic import validator, create_model
+from pydantic import validator, create_model, AnyHttpUrl
 from pydantic.main import BaseModel
 from tracardi.domain.entity import Entity
 
@@ -8,15 +8,11 @@ class SqsAuth(BaseModel):
     aws_secret_access_key: str
 
 
-class AwsSqsConfiguration(BaseModel):
-    source: Entity
-    message: str
-    region_name: str
-    queue_url: str
-    delay_seconds: int
-    message_attributes: dict
+class Content(BaseModel):
+    content: str
+    type: str
 
-    @validator('message')
+    @validator('content')
     def must_have_2_letters(cls, v):
         print(v)
         if len(v) < 2:
@@ -24,9 +20,10 @@ class AwsSqsConfiguration(BaseModel):
         return v
 
 
-
-
-
-
-
-
+class AwsSqsConfiguration(BaseModel):
+    source: Entity
+    message: Content
+    region_name: str
+    queue_url: AnyHttpUrl
+    delay_seconds: int
+    message_attributes: str
