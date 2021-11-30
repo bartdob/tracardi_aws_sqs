@@ -26,7 +26,9 @@ class AwsSqsAction(ActionRunner):
                                          aws_access_key_id=self.source.aws_access_key_id
                                          ) as client:
             result = await client.send_message(QueueUrl=self.aws_config.queue_url,
-                                               MessageBody=self.aws_config.message)
+                                               MessageBody=self.aws_config.message,
+                                               DelaySeconds=self.aws_config.delay_seconds,
+                                               MessageAttributes=self.aws_config.message_attributes)
 
             status_ok = result.get("ResponseMetadata", {}).get("HTTPStatusCode")  # response from server
 
@@ -54,7 +56,7 @@ def register() -> Plugin:
             className='AwsSqsAction',
             inputs=["payload"],
             outputs=['payload'],
-            version='0.1',
+            version='0.1.1',
             license="MIT",
             author="Bart Dobrosielski",
             init={
@@ -62,8 +64,10 @@ def register() -> Plugin:
                     "id": None
                 },
                 "message": "",
-                "region_name": "us-west-2",
-                "queue_url": ""
+                "region_name": "",
+                "queue_url": "",
+                "delay_seconds": "",
+                "message_attributes": "",
             }
         ),
         metadata=MetaData(

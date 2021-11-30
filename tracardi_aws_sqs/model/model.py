@@ -1,4 +1,4 @@
-from pydantic import validator
+from pydantic import validator, create_model
 from pydantic.main import BaseModel
 from tracardi.domain.entity import Entity
 
@@ -13,6 +13,8 @@ class AwsSqsConfiguration(BaseModel):
     message: str
     region_name: str
     queue_url: str
+    delay_seconds: int
+    message_attributes: dict
 
     @validator('message')
     def must_have_2_letters(cls, v):
