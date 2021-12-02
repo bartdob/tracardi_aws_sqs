@@ -70,7 +70,7 @@ def register() -> Plugin:
             className='AwsSqsAction',
             inputs=["payload"],
             outputs=['payload'],
-            version='0.1.1',
+            version='0.6.0.1',
             license="MIT",
             author="Bart Dobrosielski",
             init={

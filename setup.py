@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='tracardi-aws-sqs-connector',
-    version='0.6.0',
+    version='0.6.0.1',
     description='Plugin that sends a message to the Amazon AWS SQS queue',
     long_description=long_description,
     long_description_content_type="text/markdown",
