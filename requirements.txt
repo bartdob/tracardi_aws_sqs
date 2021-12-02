@@ -1,3 +1,3 @@
-tracardi-plugin-sdk>=0.6.25
-tracardi>=0.6.18,<=0.7.0
+tracardi-plugin-sdk>=0.6.30
+tracardi
 aiobotocore~=1.4.2
