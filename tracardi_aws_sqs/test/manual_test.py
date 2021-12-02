@@ -7,7 +7,16 @@ from tracardi_plugin_sdk.service.plugin_runner import run_plugin
 
 from tracardi_aws_sqs.plugin import AwsSqsAction
 
-init = {}
+init = {
+    "source": {
+        "id": "aws"
+    },
+    "message": {"type": "application/json", "content": "{}"},
+    "region_name": "us-west-2",
+    "queue_url": "http://queue",
+    "delay_seconds": "0",
+    "message_attributes": "{}"
+}
 payload = {}
 profile = Profile(id="profile-id")
 event = Event(id="event-id",

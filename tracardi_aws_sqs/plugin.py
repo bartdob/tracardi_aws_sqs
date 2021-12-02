@@ -1,6 +1,6 @@
 import json
 
-from tracardi.domain.resource import Resource
+from tracardi.domain.resource import ResourceCredentials
 from tracardi.service.storage.driver import storage
 from tracardi_plugin_sdk.action_runner import ActionRunner
 from tracardi_plugin_sdk.domain.result import Result
@@ -18,18 +18,18 @@ class AwsSqsAction(ActionRunner):
     @staticmethod
     async def build(**kwargs) -> 'AwsSqsAction':
         config = validate(kwargs)
-        source = await storage.driver.resource.load(config.source.id)
-        return AwsSqsAction(config, source)
+        resource = await storage.driver.resource.load(config.source.id)
+        return AwsSqsAction(config, resource.credentials)
 
-    def __init__(self, config: AwsSqsConfiguration, source: Resource):
+    def __init__(self, config: AwsSqsConfiguration, credentials: ResourceCredentials):
         self.aws_config = config
-        self.source = SqsAuth(**source.config)
+        self.credentials = credentials.get_credentials(self, output=SqsAuth)  # type: SqsAuth
 
     async def run(self, payload):
         session = get_session()
         async with session.create_client('sqs', region_name=self.aws_config.region_name,
-                                         aws_secret_access_key=self.source.aws_secret_access_key,
-                                         aws_access_key_id=self.source.aws_access_key_id
+                                         aws_secret_access_key=self.credentials.aws_secret_access_key,
+                                         aws_access_key_id=self.credentials.aws_access_key_id
                                          ) as client:
 
             if isinstance(self.aws_config.message_attributes, str) and len(self.aws_config.message_attributes):

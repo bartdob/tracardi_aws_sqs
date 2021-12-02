@@ -13,8 +13,8 @@ setup(
     author_email='bdobrosielski@edu.cdv.pl',
     packages=['tracardi_aws_sqs'],
     install_requires=[
-        'tracardi-plugin-sdk>=0.6.29',
-        'tracardi>=0.6.21,<=0.7.0',
+        'tracardi-plugin-sdk>=0.6.30',
+        'tracardi',
         'aiobotocore'
     ],
     classifiers=[
